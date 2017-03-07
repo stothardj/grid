@@ -77,27 +77,31 @@ def logout():
   flash('Logged out')
   return redirect(url_for('home'))
 
-@app.route('/findmatch')
+@app.route('/findmatch', methods=['POST'])
 def find_match():
   return render_template('findgame.html');
 
 @socketio.on('connect')
 def test_connect():
   userid = session['userid']
+  print('Got connection from %s' % get_username())
+  print('Rooms: %s' % rooms())
+  print('Finding match')
+  enter_game_queue(userid)
+
+@socketio.on('start_match')
+def start_match(message):
+  matchid = message['matchid']
+  print('Got match started! %s is joining room %s' % (get_username(), matchid))
+  join_room(matchid)
+
+def get_username():
+  userid = session['userid']
   db = get_db()
   curr = db.execute('select name from person where id=?', str(userid))
-  name = curr.fetchone()['name']
-  print('Got connection from %s' % name)
-  print('Rooms: %s' % rooms())
-  matchid = check_in_game(userid)
-  if matchid:
-    print('Already in match %s' % matchid)
-    emit('found_match', {
-      'matchid': matchid,
-    });
-  else:
-    print('Finding match')
-    enter_game_queue(userid)
+  row = curr.fetchone()
+  if not row: return None
+  return row['name']
 
 def check_in_game(userid):
   db = get_db()

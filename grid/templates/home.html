@@ -5,7 +5,9 @@
   {% if session.userid %}
     {{ name }}
     <a href="{{ url_for('logout') }}">log out</a>
-    <a href="{{ url_for('find_match') }}">Find Match</a>
+    <form action="{{ url_for('find_match') }}" method="post">
+      <button type="submit">Find Match</button>
+    </form>
   {% else %}
     <a href="{{ url_for('login') }}">log in</a>
   {% endif %}
