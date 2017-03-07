@@ -1,0 +1,14 @@
+{
+  "name": "grid",
+  "version": "1.0.0",
+  "description": "Hobby game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jake Stothard",
+  "license": "ISC",
+  "devDependencies": {
+    "coffeescript": "^1.0.0"
+  }
+}

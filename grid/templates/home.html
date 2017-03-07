@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  Hello
+  {% if session.userid %}
+    {{ name }}
+    <a href="{{ url_for('logout') }}">log out</a>
+    <a href="{{ url_for('find_match') }}">Find Match</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+bin/
+grid.egg-info
+include/
+lib/
+lib64
+node_modules/
+pip-selfcheck.json
+pyvenv.cfg
+share/
+*.swp
+*.pyc
+grid/static/js

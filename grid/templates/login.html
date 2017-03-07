@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+  <p>What would you like to be called during games?</p>
+  <form action="{{ url_for('login') }}" method=post>
+    <dl>Username:
+    <dd><input type=text name=username>
+    <dd><input type=submit value=Login>
+  </form>
+{% endblock %}
