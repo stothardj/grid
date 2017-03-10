@@ -51,7 +51,7 @@ def home():
   userid = session.get('userid')
   if userid:
     db = get_db()
-    curr = db.execute('select name from person where id=?', str(userid))
+    curr = db.execute('select name from person where id=?', userid)
     row = curr.fetchone()
     if not row:
       return redirect(url_for('logout'))
@@ -66,7 +66,7 @@ def login():
     curr = db.cursor()
     curr.execute('insert into person (name) values (?)',
       [name])
-    session['userid'] = curr.lastrowid
+    session['userid'] = str(curr.lastrowid)
     db.commit()
     return redirect(url_for('home'))
   return render_template('login.html')
@@ -80,6 +80,11 @@ def logout():
 @app.route('/findmatch', methods=['POST'])
 def find_match():
   return render_template('findgame.html');
+
+@app.route('/play/<int:matchid>')
+def play(matchid):
+  print('Request to play %s' % matchid)
+  return render_template('play.html')
 
 @socketio.on('connect')
 def test_connect():
@@ -98,21 +103,21 @@ def start_match(message):
 def get_username():
   userid = session['userid']
   db = get_db()
-  curr = db.execute('select name from person where id=?', str(userid))
+  curr = db.execute('select name from person where id=?', userid)
   row = curr.fetchone()
   if not row: return None
   return row['name']
 
 def check_in_game(userid):
   db = get_db()
-  curr = db.execute('select matchid from gamer where userid=?', str(userid))
+  curr = db.execute('select matchid from gamer where userid=?', userid)
   row = curr.fetchone()
   if not row: return
   return row['matchid']
 
 def enter_game_queue(userid):
   db = get_db()
-  curr = db.execute('select userid, sessionid from gamer where matchid is null')
+  curr = db.execute('select userid, sessionid from gamer where matchid is null and userid!=?', userid)
   unmatched_row = curr.fetchone()
   sid = request.sid
   if unmatched_row:

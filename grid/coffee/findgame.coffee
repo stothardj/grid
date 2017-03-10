@@ -6,6 +6,6 @@ init = ->
 
 startMatch = (socket, matchid) ->
   console.log "Found a new match! #{matchid}"
-  socket.emit 'start_match', { matchid: matchid, }
+  window.location.href = "/play/#{matchid}"
 
 init()

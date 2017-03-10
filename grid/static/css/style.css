@@ -1,0 +1,10 @@
+#chatlog {
+	width: 600px;
+	height: 300px;
+	overflow: auto;
+	border: inset;
+}
+
+#chatinput {
+	width: 600px;
+}
