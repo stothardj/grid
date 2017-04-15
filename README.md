@@ -10,6 +10,7 @@ A 2p grid game.
 
 ### Install flask server as a module in a python environment
 
+    source bin/activate
     python3 -m venv /path/to/new/virtual/environment
     pip install --editable .
 
